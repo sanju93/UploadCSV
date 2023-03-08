@@ -1,4 +1,5 @@
 const File = require('../model/file');
+const csv = require('csvtojson');
 module.exports.home = (req,res) => {
     return res.render('home');
 }
@@ -58,5 +59,16 @@ module.exports.getFiles = async (req,res) => {
 
 module.exports.show_file = (req,res) => {
     console.log(req.params);
-    return res.render('file');
+    const filePath = __dirname + '/../uploads/files/' + req.params.filename;
+    var results = [];
+    csv()
+    .fromFile(filePath)
+    .then((results) => {
+   
+
+        return res.render('file',{file : results});
+      
+     
+    })
+   
 }

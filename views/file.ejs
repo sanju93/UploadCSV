@@ -1,1 +1,40 @@
 <h1>hello</h1>
+
+
+
+
+
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">SrNo</th>
+        <% for (var i = 0; i < Object.keys(file[0]).length; i++)  {%> 
+
+          <th scope="col"><%=Object.keys(file[0])[i]%></th>
+          
+          
+        <%}%>
+      </tr>
+    </thead>
+    <tbody>
+ 
+     <% var z = 1 %>
+      <% for(var i of file) {%>
+
+        <tr>
+       <th scope="row"><%=z++%></th>
+     <% for (var j of Object.keys(i)) {%> 
+      
+      <td><%= i[j] %></td>
+      
+      
+      <%}%>
+        </tr>
+      
+
+        
+      <%}%>
+  
+    </tbody>
+  </table>
