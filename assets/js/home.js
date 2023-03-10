@@ -14,6 +14,8 @@ window.addEventListener('load',function() {
 
                 var div_row = this.document.createElement('div')
                 div_row.setAttribute('class','row mt-3');
+
+             
                 
                       
             
@@ -24,8 +26,11 @@ window.addEventListener('load',function() {
                 para.innerHTML = results[i]["file"];
                 para.setAttribute('id',`${results[i]["file"]}`);
                 para.style.cursor = "pointer";
+       
+          
 
                 para.addEventListener('click',(e) => {
+                
                     var filename = e.target.getAttribute('id');
                    window.location.href = `/show_file/${filename}?page=${1}`;
                 })
