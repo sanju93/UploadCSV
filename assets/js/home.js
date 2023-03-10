@@ -27,7 +27,7 @@ window.addEventListener('load',function() {
 
                 para.addEventListener('click',(e) => {
                     var filename = e.target.getAttribute('id');
-                   window.location.href = `/show_file/${filename}`;
+                   window.location.href = `/show_file/${filename}?page=${1}`;
                 })
                 
                 

@@ -4,8 +4,9 @@
 
 
 
-
+<input type = "text" id = "search_box" class="form form-control" placeholder="search by 2nd column">
 <table class="table table-striped">
+
     <thead>
       <tr>
         <th scope="col">SrNo</th>
@@ -38,3 +39,15 @@
   
     </tbody>
   </table>
+
+
+  
+  <% for (var z = 1; z <= totalPages; z++) { %>
+      <a href="?page=<%= z %>"><%= z %></a>
+   <%}%>
+  
+
+
+
+
+  <script src="/js/table.js"></script>

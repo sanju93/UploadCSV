@@ -1,4 +1,5 @@
 const File = require('../model/file');
+const Data = require('../model/data');
 const csv = require('csvtojson');
 module.exports.home = (req,res) => {
     return res.render('home');
@@ -6,33 +7,62 @@ module.exports.home = (req,res) => {
 
 module.exports.upload = async (req,res) => {
   
-    console.log(req.files);
+ 
     var filename = req.files.data.name;
     var index = filename.indexOf('.');
     filename = filename.substring(0,index) + Date.now() + filename.substring(index,filename.length);
 
-    req.files.data.mv(__dirname+'/../uploads/files/'+filename,(err) => {
+    req.files.data.mv(__dirname+'/../uploads/files/'+filename,async (err) => {
         if (err) {
             return;
         }else{
+            
+        const filePath = __dirname + '/../uploads/files/' + filename;
+       csv()
+        .fromFile(filePath)
+        .then(async (results) => { 
+
+            try{
+                
+                   
+               const data = await Data.create({
+                    data : results
+                });
+
+               await File.create({
+                    file : filename,
+                    data : data._id
+                })
+
+
+            
+
+            }catch(err) {
+
+                console.log("error occuring while creating the database",err);
+                
+
+            }
+
+       
+
+
+
+
+
+        });
+    
+
+     
+
             console.log("file added successfully in the folder");
         }
     })
 
-    try{
+    
 
-        await File.create({
-            file:filename
-        })
 
-        console.log("file added in database");
-
-    }catch(err) {
-
-        console.log("error in saving the data in database",err);
-        
-
-    }
+ 
 
   
     return res.redirect('back');
@@ -57,18 +87,46 @@ module.exports.getFiles = async (req,res) => {
 
 }
 
-module.exports.show_file = (req,res) => {
-    console.log(req.params);
-    const filePath = __dirname + '/../uploads/files/' + req.params.filename;
-    var results = [];
-    csv()
-    .fromFile(filePath)
-    .then((results) => {
+module.exports.show_file = async (req,res) => {
+    
+
+    var file = await File.findOne({file : req.params.filename});
+    var page = req.query.page;
+    var limit = 100;
+ 
+
+    var data_Id = file.data;
+    var data = await Data.findById(data_Id);
+
+    var csv_data = data.data;
+
+    if (csv_data.length >= limit) {
+        var startIndex = (page - 1) * limit;
+        var lastIndex = page * limit;
+
+        var changeArray = csv_data.slice(startIndex,lastIndex);
+        return res.render('file',{
+            file : changeArray,
+            totalPages : Math.ceil(csv_data.length / limit)
+        })
+    }else{
+        return res.render('file',{
+            file : csv_data,
+            totalPages : 0
+        })
+    }
+
+    
+
+
+
    
 
-        return res.render('file',{file : results});
+        
+
+       
       
      
-    })
+ 
    
 }
