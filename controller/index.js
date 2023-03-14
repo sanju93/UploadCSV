@@ -1,10 +1,13 @@
 const File = require('../model/file');
 const Data = require('../model/data');
 const csv = require('csvtojson');
+
+// home page
 module.exports.home = (req,res) => {
     return res.render('home');
 }
 
+// upload file
 module.exports.upload = async (req,res) => {
   
  
@@ -68,7 +71,7 @@ module.exports.upload = async (req,res) => {
     return res.redirect('back');
 
 }
-
+// get files
 module.exports.getFiles = async (req,res) => {
 
     try{
@@ -87,6 +90,8 @@ module.exports.getFiles = async (req,res) => {
 
 }
 
+
+// show files
 module.exports.show_file = async (req,res) => {
     
 
