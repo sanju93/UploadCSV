@@ -15,13 +15,13 @@ module.exports.upload = async (req,res) => {
     var index = filename.indexOf('.');
     filename = filename.substring(0,index) + Date.now() + filename.substring(index,filename.length);
 
-    req.files.data.mv(path.join(__dirname,`/../tmp/${filename}`),async (err) => {
+    req.files.data.mv(path.join(__dirname,`/../var/task/tmp/${filename}`),async (err) => {
         if (err) {
             console.log(err);
             return;
         }else{
             
-        const filePath = path.join(__dirname , `/../tmp/${filename}`);
+        const filePath = path.join(__dirname , `/../var/task/tmp/${filename}`);
        csv()
         .fromFile(filePath)
         .then(async (results) => { 
