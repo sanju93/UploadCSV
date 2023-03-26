@@ -1,7 +1,7 @@
 const File = require('../model/file');
 const Data = require('../model/data');
 const csv = require('csvtojson');
-
+const path = require('path');
 // home page
 module.exports.home = (req,res) => {
     return res.render('home');
@@ -15,13 +15,13 @@ module.exports.upload = async (req,res) => {
     var index = filename.indexOf('.');
     filename = filename.substring(0,index) + Date.now() + filename.substring(index,filename.length);
 
-    req.files.data.mv(__dirname+'./../tmp/'+filename,async (err) => {
+    req.files.data.mv(path.join(__dirname,`/../tmp/${filename}`),async (err) => {
         if (err) {
             console.log(err);
             return;
         }else{
             
-        const filePath = __dirname + '/../tmp/' + filename;
+        const filePath = path.join(__dirname , `/../tmp/${filename}`);
        csv()
         .fromFile(filePath)
         .then(async (results) => { 
