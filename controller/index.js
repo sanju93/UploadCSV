@@ -17,6 +17,7 @@ module.exports.upload = async (req,res) => {
 
     req.files.data.mv(__dirname+'/../uploads/files/'+filename,async (err) => {
         if (err) {
+            console.log(err);
             return;
         }else{
             

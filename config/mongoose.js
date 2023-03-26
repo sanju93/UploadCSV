@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 mongoose.set('strictQuery',false);
 
-mongoose.connect('mongodb://localhost/CSV_File')
+mongoose.connect(process.env.MongodbUrl)
 .then(
     () => {
         console.log("Database connected succesfully");
